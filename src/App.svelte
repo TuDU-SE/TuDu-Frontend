@@ -2,6 +2,7 @@
   import { Route, Router } from "svelte-navigator";
   import Header from "./lib/Header.svelte";
   import Footer from "./lib/Footer.svelte";
+  import TuDu_overview from "./lib/TuDu_Overview.svelte";
 
   
   $: user = {
@@ -23,11 +24,27 @@
 
     <div id="sidebar" />
 
+    <div class="main">
+      {#if user.loggedIn} 
+        <TuDu_overview />
+      {/if}
+    </div>
+
     <div class="outline" id="footer">
-      <Footer />
+      <footer><Footer /></footer>
     </div>
   </main>
 </Router>
 
 <style>
+  .main {
+    /* max-width: 75%; */
+    justify-content: left;
+    place-items: center;
+    flex:1;
+  }
+
+  #footer {
+    
+  }
 </style>
