@@ -3,8 +3,12 @@
   import Header from "./lib/Header.svelte";
   import Footer from "./lib/Footer.svelte";
   import TuDu_overview from "./lib/TuDu_Overview.svelte";
+  import Landing from "./lib/Landing.svelte";
+  import { fade, fly } from "svelte/transition";
+  import Login from "./lib/Login.svelte";
+  import User from "./lib/User.svelte";
 
-  
+  let show_login_form = false;
   $: user = {
     loggedIn: false,
     name: null,
@@ -14,26 +18,45 @@
 </script>
 
 <Router>
-  <main>
-    <div class="outline" id="header">
-      <Header bind:user />
-    </div>
-    <p>
-      User is {#if !user.loggedIn} not {/if} logged in
-    </p>
-
-    <div id="sidebar" />
-
-    <div class="main">
-      {#if user.loggedIn} 
-        <TuDu_overview />
+  <div class="outline">
+    <Header bind:user bind:show_login_form />
+  </div>
+  <div class="main">
+    <Route path="/main">
+      {#if user.loggedIn}
+        <div
+          id="viewport"
+          in:fly={{ x: -500, duration: 750 }}
+          out:fly={{ x: 500, duration: 750 }}
+        >
+          <svelte:component this={TuDu_overview} />
+        </div>
+      {:else}
+        <div
+          id="viewport"
+          in:fly={{ x: -500, duration: 750 }}
+          out:fly={{ x: 500, duration: 750 }}
+        >
+          <svelte:component this={Login} bind:user bind:show_login_form />
+        </div>
       {/if}
-    </div>
-
-    <div class="outline" id="footer">
-      <footer><Footer /></footer>
-    </div>
-  </main>
+    </Route>
+    <Route path="/">
+      <div
+        id="viewport"
+        in:fly={{ x: -500, duration: 750 }}
+        out:fly={{ x: 500, duration: 750 }}
+      >
+        <svelte:component this={Landing} />
+      </div>
+    </Route>
+    <Route path="/user/:user">
+      <User bind:user />
+    </Route>
+  </div>
+  <div class="outline">
+    <footer><Footer /></footer>
+  </div>
 </Router>
 
 <style>
@@ -41,10 +64,10 @@
     /* max-width: 75%; */
     justify-content: left;
     place-items: center;
-    flex:1;
+    flex-grow: 1;
+    margin: 5px;
   }
-
-  #footer {
-    
+  #viewport {
+    max-width: fit-content;
   }
 </style>

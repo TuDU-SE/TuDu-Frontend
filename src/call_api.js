@@ -1,7 +1,7 @@
 const API_BASE_PATH = "http://localhost:8080";
 
 function get_api_response(url) {
-  url = API_BASE_PATH+url;
+  url = API_BASE_PATH + url;
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
@@ -21,7 +21,7 @@ function get_api_response(url) {
 }
 
 export function post_api_response(url, data) {
-  url = API_BASE_PATH+url;
+  url = API_BASE_PATH + url;
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);

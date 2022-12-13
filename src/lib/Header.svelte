@@ -1,22 +1,11 @@
 <script>
   // imports
-  import Login from "./Login.svelte";
-  import { fade, fly } from "svelte/transition";
+
+  import { Link } from "svelte-navigator";
 
   // parameters
   export let user;
-
-  // variables
-  let show_login_form = false;
-
-  function show_login() {
-    console.log("SHOW LOGIN");
-    show_login_form = !show_login_form;
-  }
-
-  function register() {
-    console.log("REGISTER");
-  }
+  export let show_login_form;
 
   function logout() {
     console.log("LOGOUT");
@@ -25,37 +14,36 @@
       name: null,
       login_time: null,
       password: null,
-    }
+    };
     // show_login_form = !show_login_form;
 
     // TODO: delete cookies and jwt and all the other local user stuff
   }
-  $: console.log(`user.loggedIn: ${user.loggedIn}, show_login_form: ${show_login_form}`);
+  $: console.log(
+    `user.loggedIn: ${user.loggedIn}, show_login_form: ${show_login_form}`
+  );
 </script>
+<nav>
+  <Link to="/">Landing</Link>
+  <Link to="/main">Main</Link>
+  <Link to="/user/:user">{user.name}</Link>
+</nav>
 
-<p>
+<!-- <p>
   User is {#if !user.loggedIn} not {/if} logged in
 </p>
-{#if !(user.loggedIn)}
-  <button on:click={show_login}> Login </button>
-  <button on:click={register}> Register </button>
-{:else}
-  <p>Hello, {user.name}</p>
-  <button on:click={logout}> Logout </button>
-{/if}
+<div class="button_group">
+  {#if !user.loggedIn}
+    <button on:click={show_login}> Login </button>
+    <button on:click={register}> Register </button>
+  {:else}
+    <p>Hello, {user.name}</p>
+    <button on:click={logout}> Logout </button>
+  {/if}
+</div> -->
 
-<!-- user.loggedIn = !user.loggedIn; -->
-<!-- login page -->
-{#if (show_login_form)}
-  <div
-    id="viewport"
-    in:fly={{ y: 200, duration: 400 }}
-    out:fly={{ y: 200, duration: 400 }}
-  >
-    <svelte:component this={Login} bind:user bind:show_login_form={show_login_form} />
-  </div>
-{/if}
-
-<!--  -->
 <style>
+  /* .button_group {
+    margin: 5px;
+  } */
 </style>
